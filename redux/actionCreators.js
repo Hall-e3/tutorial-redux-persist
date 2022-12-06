@@ -1,6 +1,10 @@
 import axios from "axios";
 import { BASE_URL } from "../config";
-import { GET_BOOKS } from "./actionTypes";
+import {
+  ADD_TO_BOOKMARK_LIST,
+  GET_BOOKS,
+  REMOVE_FROM_BOOKMARK_LIST,
+} from "./actionTypes";
 
 export const getBooks = () => {
   try {
@@ -18,4 +22,18 @@ export const getBooks = () => {
   } catch (error) {
     console.log(error);
   }
+};
+
+export const addBookmark = (book) => (dispatch) => {
+  dispatch({
+    type: ADD_TO_BOOKMARK_LIST,
+    payload: book,
+  });
+};
+
+export const removeBookmark = (book) => (dispatch) => {
+  dispatch({
+    type: REMOVE_FROM_BOOKMARK_LIST,
+    payload: book,
+  });
 };

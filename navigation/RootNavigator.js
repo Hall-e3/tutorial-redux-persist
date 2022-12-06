@@ -42,6 +42,14 @@ const RootNavigator = () => {
         screenOptions={({ route }) => ({
           tabBarIcon: ({ color }) => screenOptions(route, color),
           ...tabBarOptions,
+          tabBarInactiveTintColor: tabBarOptions.inactiveTintColor,
+          tabBarActiveTintColor: tabBarOptions.activeTintColor,
+          tabBarStyle: {
+            backgroundColor: tabBarOptions.style.backgroundColor,
+            height: tabBarOptions.style.height,
+            
+          },
+          tabBarShowLabel: tabBarOptions.showLabel,
         })}
       >
         <Tab.Screen name="BooksList" component={BooksList} />
