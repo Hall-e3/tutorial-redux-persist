@@ -12,17 +12,33 @@ import {
 // dispatch action from the redux store use useDispatch
 import { useSelector, useDispatch } from "react-redux";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { getBooks } from "../redux/actionCreators";
+import { addBookmark, getBooks, removeBookmark } from "../redux/actionCreators";
 
 export default function BooksList() {
   const dispatch = useDispatch();
-  const { books } = useSelector((state) => state.booksReducer);
+  const { books, bookmarks } = useSelector((state) => state.booksReducer);
   // console.log(books);
   const fetchBooks = () => dispatch(getBooks());
+
+  const handleAddBookmark = (book) => {
+    dispatch(addBookmark(book));
+  };
+
+  const handleRemoveBookmark = (book) => {
+    dispatch(removeBookmark(book));
+  };
 
   useEffect(() => {
     fetchBooks();
   }, []);
+
+  const ifExists = (book) => {
+    if (bookmarks.filter((item) => item.id === book.id).length > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  };
 
   const renderItem = ({ item }) => {
     // console.log("it's all here but i can't see");
@@ -73,12 +89,16 @@ export default function BooksList() {
             {/* buttons */}
             <View style={{ marginTop: 14 }}>
               <TouchableOpacity
-                onPress={() => console.log("Bookmarked!")}
+                onPress={() =>
+                  ifExists(item)
+                    ? handleRemoveBookmark(item)
+                    : handleAddBookmark(item)
+                }
                 activeOpacity={0.7}
                 style={{
                   flexDirection: "row",
                   padding: 2,
-                  backgroundColor: "#2D3038",
+                  backgroundColor: ifExists(item) ? "#F96D41" : "#2D3038",
                   borderRadius: 20,
                   alignItems: "center",
                   justifyContent: "center",
@@ -87,9 +107,9 @@ export default function BooksList() {
                 }}
               >
                 <MaterialCommunityIcons
-                  color="#64676D"
+                  color={ifExists(item) ? "white" : "#64676D"}
                   size={24}
-                  name="bookmark-outline"
+                  name={ifExists(item) ? "bookmark-outline" : "bookmark"}
                 />
               </TouchableOpacity>
             </View>
@@ -102,7 +122,9 @@ export default function BooksList() {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#1E1B26" }}>
       <View style={{ flex: 1, paddingHorizontal: 16 }}>
-        <Text style={{ color: "white", fontSize: 22 }}>Bestsellers</Text>
+        <Text style={{ color: "white", fontSize: 22, marginVertical: 4 }}>
+          Bestsellers
+        </Text>
         <View style={{ flex: 1, marginTop: 8 }}>
           <FlatList
             data={books}
