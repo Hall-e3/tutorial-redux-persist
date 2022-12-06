@@ -5,11 +5,11 @@ import { GET_BOOKS } from "./actionTypes";
 export const getBooks = () => {
   try {
     return async (dispatch) => {
-      const response = await axios.get(`${BASE_URL}`);
-      if (response.data) {
+      const { data } = await axios.get(`${BASE_URL}`);
+      if (data) {
         dispatch({
           type: GET_BOOKS,
-          payload: response.data,
+          payload: data,
         });
       } else {
         console.log("Unable to fetch data from the API BASE URL!");

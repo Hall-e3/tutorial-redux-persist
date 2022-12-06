@@ -8,7 +8,7 @@ const initialState = {
   books: [],
 };
 
-export default function reducers(state = initialState, action) {
+export default function book(state = initialState, action) {
   switch (action.type) {
     case GET_BOOKS:
       return { ...state, books: action.payload };

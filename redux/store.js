@@ -5,7 +5,7 @@ import { createStore, combineReducers, applyMiddleware } from "redux";
 // enables to make asynchronous AJAX request such as fetching data from an API URL
 import thunk from "redux-thunk";
 
-import booksReducer from "./reducers";
+import booksReducer from "./bookReducer";
 
 const rootReducer = combineReducers({ booksReducer });
 
